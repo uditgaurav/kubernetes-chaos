@@ -1,7 +1,7 @@
 FROM golang:latest
 
 LABEL version="1.0.0"
-LABEL name="Pod Delete"
+LABEL name="MyChaos"
 LABEL repository="http://github.com/uditgaurav/k8s-actions"
 LABEL homepage="http://github.com/uditgaurav/k8s-actions"
 
@@ -11,12 +11,17 @@ LABEL com.github.actions.description="Runs kubectl delete pod on a given namespa
 LABEL com.github.actions.icon="terminal"
 LABEL com.github.actions.color="blue"
 
+ARG KUBECTL_VERSION=1.17.0
+ADD https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl /usr/local/bin/kubectl
+RUN chmod +x /usr/local/bin/kubectl
+
 RUN apt-get update && apt-get install -y git
+RUN apt-get update && apt-get install -y ssh 
+RUN apt install ssh rsync
 
 COPY LICENSE README.md /
 COPY entrypoint.sh /entrypoint.sh
 COPY experiments ./experiments
-COPY litmus ./litmus
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["help"]
