@@ -1,7 +1,7 @@
 FROM golang:latest
 
 LABEL version="1.0.0"
-LABEL name="Pod Delete"
+LABEL name="MyChaos"
 LABEL repository="http://github.com/uditgaurav/k8s-actions"
 LABEL homepage="http://github.com/uditgaurav/k8s-actions"
 
