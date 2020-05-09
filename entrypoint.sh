@@ -6,11 +6,16 @@ set -e
 mkdir -p /github/workspace/.kube
 echo $HOME
 pwd
+echo "running ls -a"
 ls -a
+echo "running command ls .kube"
 ls .kube
 # echo "$KUBE_CONFIG_DATA" | base64 --decode > ${HOME}/.kube/config
-cat github/home/.kube/config > github/workspace/.kube/config
 export KUBECONFIG=github/home/runner/.kube/config
+
+kubectl get nodes
+
+cat .kube/config
 
 #Setup 
 export GOPATH=$HOME/go
