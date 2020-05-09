@@ -11,22 +11,22 @@ ls -a
 echo "running command ls .kube"
 ls .kube
 # echo "$KUBE_CONFIG_DATA" | base64 --decode > ${HOME}/.kube/config
-export KUBECONFIG=github/home/runner/.kube/config
+# export KUBECONFIG=github/home/runner/.kube/config
 
-kubectl get nodes
+# kubectl get nodes
 
-cat .kube/config
+# cat .kube/config
 
-#Setup 
-export GOPATH=$HOME/go
+#Setup
+export GOPATH=$HOME/runner/go
 export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
-mkdir -p $HOME/go/src/github.com/uditgaurav
+mkdir -p $HOME/runner/go/src/github.com/uditgaurav
 cd ${GOPATH}/src/github.com/uditgaurav/
 git clone https://github.com/uditgaurav/central-ci.git
 cd central-ci
 
 echo "running dependencies"
-kubectl get no
+kubectl get nodes
 
 ##Install litmus if it is not already installed
 if [ $INSTALL_LITMUS = true ]
