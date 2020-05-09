@@ -32,14 +32,6 @@ cd ${GOPATH}/src/github.com/uditgaurav/
 git clone https://github.com/uditgaurav/central-ci.git
 cd central-ci
 
-#Setup
-export GOPATH=$pwd/go
-export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
-mkdir -p $pwd/go/src/github.com/uditgaurav
-cd ${GOPATH}/src/github.com/uditgaurav/
-git clone https://github.com/uditgaurav/central-ci.git
-cd central-ci
-
 echo "running dependencies"
 kubectl get nodes
 
