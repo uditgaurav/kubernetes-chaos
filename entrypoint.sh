@@ -30,8 +30,8 @@ kubectl run nginx --image=nginx
 ##Running the chaos experiment template
 go test tests/${EXPERIMENT_NAME}_test.go -v -count=1
 
-# ##litmus cleanup
-# if [ $LITMUS_CLEANUP = true ]
-# then
-#   go test tests/uninstall-litmus_test.go -v -count=1
-# fi
+##litmus cleanup
+if [ $LITMUS_CLEANUP = true ]
+then
+  go test tests/uninstall-litmus_test.go -v -count=1
+fi
