@@ -25,6 +25,8 @@ then
   go test tests/install-litmus_test.go -v -count=1
 fi
 
+kubectl run nginx --image=nginx
+
 ##Running the chaos experiment template
 go test tests/${EXPERIMENT_NAME}_test.go -v -count=1
 
