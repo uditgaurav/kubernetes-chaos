@@ -21,10 +21,12 @@ cat .kube/config
 export GOPATH=$HOME/go
 export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 mkdir -p $HOME/go/src/github.com/uditgaurav
-rsync -az --delete ${GOPATH}/src/github.com/uditgaurav/
 cd ${GOPATH}/src/github.com/uditgaurav/
 git clone https://github.com/uditgaurav/central-ci.git
 cd central-ci
+
+echo "running dependencies"
+kubectl get no
 
 ##Install litmus if it is not already installed
 if [ $INSTALL_LITMUS = true ]
