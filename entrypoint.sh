@@ -3,14 +3,14 @@
 set -e
 
 # Extract the base64 encoded config data and write this to the KUBECONFIG
-mkdir -p ${HOME}/.kube
+mkdir -p /github/workspace/.kube
 echo $HOME
-ls
 pwd
 ls -a
+ls .kube
 # echo "$KUBE_CONFIG_DATA" | base64 --decode > ${HOME}/.kube/config
-cat /home/runner/.kube/config
-export KUBECONFIG=/home/runner/.kube/config
+cat github/home/.kube/config > github/workspace/.kube/config
+export KUBECONFIG=github/home/runner/.kube/config
 
 #Setup 
 export GOPATH=$HOME/go
