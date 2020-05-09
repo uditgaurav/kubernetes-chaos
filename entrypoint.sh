@@ -3,10 +3,16 @@
 # set -e
 
 mkdir -p ${HOME}/.kube
-KUBE_CONFIG_DATA=$(<.kube/config)
-echo "$KUBE_CONFIG_DATA" > ${HOME}/.kube/config
+value=`cat .kube/config`
+echo "$value" > ${HOME}/.kube/config
 export KUBECONFIG=${HOME}/.kube/config
 
+echo "****************Cating .kube/config **********************"
+cat .kube/config
+echo "****************Cating HOME .kube/config **********************"
+cat ${HOME}/.kube/config
+echo "****************Echoing kube config**********************"
+echo "$KUBECONFIG"
 echo "****************Echoing kube config**********************"
 echo "$KUBECONFIG"
 echo "****************Echoing kube data**********************"
