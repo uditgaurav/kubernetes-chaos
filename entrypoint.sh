@@ -2,23 +2,28 @@
 
 # set -e
 
-# mkdir -p ${HOME}/.kube
-# KUBE_CONFIG_DATA=$(<.kube/config)
-# echo "$KUBE_CONFIG_DATA" > ${HOME}/.kube/config
-# export KUBECONFIG=${HOME}/.kube/config
+mkdir -p ${HOME}/.kube
+KUBE_CONFIG_DATA=$(<.kube/config)
+echo "$KUBE_CONFIG_DATA" > ${HOME}/.kube/config
+export KUBECONFIG=${HOME}/.kube/config
 
-# #Setup 
-# export GOPATH=$HOME/go
-# export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
-# mkdir -p $HOME/go/src/github.com/uditgaurav
-# rsync -az --delete ${GOPATH}/src/github.com/uditgaurav/
-# cd ${GOPATH}/src/github.com/uditgaurav/
-# echo "RUNNING KUBE CONFIG FROM HOME: RUNNING pwd "
-# pwd
-# git clone https://github.com/uditgaurav/central-ci.git
-# cd central-ci
-
-echo "running dependencies"
+echo "****************Echoing kube config**********************"
+echo "$KUBECONFIG"
+echo "****************Echoing kube data**********************"
+echo "$KUBE_CONFIG_DATA"
+echo "****************Echoing kubectl get no**********************"
+kubectl get nodes
+#Setup 
+export GOPATH=$HOME/go
+export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
+mkdir -p $HOME/go/src/github.com/uditgaurav
+rsync -az --delete ${GOPATH}/src/github.com/uditgaurav/
+cd ${GOPATH}/src/github.com/uditgaurav/
+git clone https://github.com/uditgaurav/central-ci.git
+cd central-ci
+echo "****************Echoing kubectl get no**********************"
+pwd
+echo "****************Echoing kubectl get node again**********************"
 kubectl get nodes
 
 # ##Install litmus if it is not already installed
