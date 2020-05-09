@@ -4,9 +4,13 @@ set -e
 
 # Extract the base64 encoded config data and write this to the KUBECONFIG
 mkdir -p ${HOME}/.kube
+echo $HOME
+ls
+pwd
+ls -a
 # echo "$KUBE_CONFIG_DATA" | base64 --decode > ${HOME}/.kube/config
-cat ${HOME}/.kube/config
-export KUBECONFIG=${HOME}/.kube/config
+cat /home/runner/.kube/config
+export KUBECONFIG=/home/runner/.kube/config
 
 #Setup 
 export GOPATH=$HOME/go
