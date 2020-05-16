@@ -11,6 +11,7 @@ LABEL com.github.actions.description="Runs kubectl delete pod on a given namespa
 LABEL com.github.actions.icon="terminal"
 LABEL com.github.actions.color="blue"
 
+ENV GO111MODULE=on
 ENV GCLOUD_SDK_VERSION=200.0.0
 ENV GCLOUD_SDK_URL=https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${GCLOUD_SDK_VERSION}-linux-x86_64.tar.gz
 ENV PATH="${PATH}:/opt/google-cloud-sdk/bin"
