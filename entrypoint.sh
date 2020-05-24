@@ -1,76 +1,45 @@
 #!/bin/sh
 
-# set -e
+set -e
 
-# mkdir -p ${HOME}/.kube
-# value=`cat .kube/config`
-# echo "$value" > ${HOME}/.kube/config
-# export KUBECONFIG=${HOME}/.kube/config
+TOTAL_CHAOS_DURATION=${TOTAL_CHAOS_DURATION:=60}
+TEST_TIMEOUT=$((900 + $TOTAL_CHAOS_DURATION))
+PARALLEL_EXECUTION=${PARALLEL_EXECUTION:=1}
 
-# #Setup 
-
-# mkdir -p $HOME/go/src/github.com/uditgaurav
-# cd ${GOPATH}/src/github.com/uditgaurav/
-# git clone https://github.com/uditgaurav/central-ci.git
-# cd central-ci
-
-# #Getting the nodes of the cluster
-# kubectl get nodes
-
-# ##Install litmus if it is not already installed
-# if [ $INSTALL_LITMUS = true ]
-# then
-#   go test tests/install-litmus_test.go -v -count=1
-# fi
-
-# ##Running the chaos experiment template
-# go test tests/${EXPERIMENT_NAME}_test.go -v -count=1
-
-# ##litmus cleanup
-# if [ $LITMUS_CLEANUP = true ]
-# then
-#   go test tests/uninstall-litmus_test.go -v -count=1
-# fi
-
-
- 
-#!/bin/sh
-
-# set -e
-
-##Extract the base64 encoded config data and write this to the KUBECONFIG
+## Extract the base64 encoded config data and write this to the KUBECONFIG
 mkdir -p ${HOME}/.kube
-# cat /home/runner/.kube/config > ${HOME}/.kube/config
-
-echo "$kubeconfig"  | base64 --decode
-echo "$kubeconfig"  | base64 --decode > ${HOME}/.kube/config
+echo "$KUBE_CONFIG_DATA" | base64 --decode > ${HOME}/.kube/config
 export KUBECONFIG=${HOME}/.kube/config
 
-# mkdir -p $HOME/.kube
-kubectl config use-context docker-for-desktop
-
-##Setup 
-export GOPATH=$HOME/go
-export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
+## Setup 
 mkdir -p $HOME/go/src/github.com/mayadata-io
 cd ${GOPATH}/src/github.com/mayadata-io/
+dir=${GOPATH}/src/github.com/mayadata-io/chaos-ci-lib
+
+if [ ! -d $dir ]; then
+# git clone -b v0.1.0 --single-branch  https://github.com/mayadata-io/chaos-ci-lib.git
 git clone https://github.com/mayadata-io/chaos-ci-lib.git
+fi
 cd chaos-ci-lib
-echo "Starting experiment"
 
-kubectl get nodes --kubeconfig=$KUBECONFIG
-
-##Install litmus if it is not already installed
-if [ $INSTALL_LITMUS = true ]
-then
-  go test tests/install-litmus_test.go -v -count=1
+## Install litmus if it is not already installed
+if [ "$INSTALL_LITMUS" = "true" ]; then
+  cd litmus
+  go test install-litmus_test.go -v -count=1 
 fi
 
-##Running the selected chaos experiment template
-go test tests/${EXPERIMENT_NAME}_test.go -v -count=1
+if [ "$EXPERIMENT_NAME" == "all" ]; then
+## Run all BDDs 
+cd tests
+ginkgo -nodes=${PARALLEL_EXECUTION}
 
-##litmus cleanup
-if [ $LITMUS_CLEANUP = true ]
-then
-  go test tests/uninstall-litmus_test.go -v -count=1
+else
+## Run the selected chaos experiment template
+cd ..
+go test tests/${EXPERIMENT_NAME}_test.go -v -count=1 -timeout=${TEST_TIMEOUT}s
+fi
+
+## Litmus cleanup
+if [ "$LITMUS_CLEANUP" = "true" ]; then
+  go test litmus/uninstall-litmus_test.go -v -count=1
 fi

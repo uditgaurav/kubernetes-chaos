@@ -11,16 +11,8 @@ LABEL com.github.actions.description="Runs kubectl delete pod on a given namespa
 LABEL com.github.actions.icon="terminal"
 LABEL com.github.actions.color="blue"
 
-ENV GO111MODULE=on
-ENV GCLOUD_SDK_VERSION=200.0.0
-ENV GCLOUD_SDK_URL=https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${GCLOUD_SDK_VERSION}-linux-x86_64.tar.gz
-ENV PATH="${PATH}:/opt/google-cloud-sdk/bin"
-ENV TERM=xterm
-
-RUN mkdir -p /opt && \
-    cd /opt && \
-    wget -q -O - $GCLOUD_SDK_URL |tar zxf - && \
-    /opt/google-cloud-sdk/install.sh -q
+ENV GOPATH=/github/home/go
+ENV PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 
 ARG KUBECTL_VERSION=1.17.0
 ADD https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl /usr/local/bin/kubectl
