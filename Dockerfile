@@ -12,7 +12,6 @@ LABEL com.github.actions.color="blue"
 
 ENV GOPATH=/github/home/go
 ENV PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
-
 ARG HELM_VERSION=3.2.3
 ARG RELEASE_ROOT="https://get.helm.sh"
 ARG RELEASE_FILE="helm-v${HELM_VERSION}-linux-amd64.tar.gz"
@@ -26,10 +25,13 @@ RUN apt-get update && apt-get install -y git && \
     apt-get install curl -y && \
     apt install ssh rsync
 
+RUN go get github.com/onsi/ginkgo/ginkgo
+RUN apt-get update && apt-get install -y golang-ginkgo-dev && apt-get install -y ginkgocadx
+
 RUN apt-get update && \
     curl -L ${RELEASE_ROOT}/${RELEASE_FILE} |tar xvz && \
     mv linux-amd64/helm /usr/bin/helm && \
-    chmod +x /usr/bin/helm
+    chmod +x /usr/bin/helm    
 
 COPY README.md /
 COPY entrypoint.sh /entrypoint.sh

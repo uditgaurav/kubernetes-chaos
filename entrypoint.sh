@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
@@ -26,13 +26,6 @@ cd chaos-ci-lib
 if [ "$INSTALL_LITMUS" = "true" ]; then
   cd litmus
   go test install-litmus_test.go -v -count=1 
-  kubectl apply-f https://raw.githubusercontent.com/uditgaurav/litmuschaos/master/app/nginx.yml -n litmus
-  sleep 10
-  kubectl get po -n litmus
-  sleep 10
-  kubectl get po -n litmus
-  kubectl describe pod nginx -n litmus
-  kubectl describe chaosexperiment
 fi
 
 if [ "$EXPERIMENT_NAME" == "all" ]; then
